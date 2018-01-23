@@ -1,4 +1,9 @@
 $(document).ready(function() {
+    $('.consist div li').on( "click", function() {
+        $('.consist div li').not(this).removeClass("active");
+        $(this).toggleClass( "active" );
+    });
+
 
     $(".menu").on("click","a", function (event) {
         event.preventDefault();
