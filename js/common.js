@@ -1,74 +1,135 @@
-$(document).ready(function() {
-    $('.consist div li').on( "click", function() {
+$(document).ready(function () {
+
+    // percents initiation------------------------------------------
+        $(window).scroll(function () {
+            var h = $(window).scrollTop();
+            var yourElementHeight = $(".percent").offset().top; // координаты высоты верхнего края yourElement
+
+            if (h > yourElementHeight - 4850) {
+                $('.percent').each(function () {
+                    var $this = $(this),
+                        countTo = $this.attr('data-count');
+
+                    $({countNum: $this.text()}).animate({
+                            countNum: countTo
+                        },
+                        {
+                            duration: 2000,
+                            easing: 'linear',
+                            step: function () {
+                                $this.text(Math.floor(this.countNum));
+                            },
+                            complete: function () {
+                                $this.text(this.countNum);
+                                //alert('finished');
+                            }
+
+                        });
+
+
+                });
+            }
+        });
+    // percents initiation------------------------------------------
+
+    // use animation--------------------------------------
+    var steps = $('.animate-use li');
+
+    function activeStep(arg) {
+        $(arg).addClass("active");
+        setTimeout(function () {
+            $(arg).removeClass("active");
+        }, 1000);
+
+    }
+
+    var timerStep = setInterval(function () {
+        setTimeout(function () {
+            activeStep(steps[0])
+        }, 1500);
+        setTimeout(function () {
+            activeStep(steps[1])
+        }, 3000);
+        setTimeout(function () {
+            activeStep(steps[2])
+        }, 4500);
+    }, 6000);
+
+    // use animation--------------------------------------
+
+
+    // arrows animation--------------------------------------
+    var firstArrow = "div.arrow-1";
+    var secondArrow = "div.arrow-2";
+    var thirdArrow = "div.arrow-3";
+
+
+    function arrowsAnimation(arg) {
+        $(arg).removeClass("filter");
+        setTimeout(function () {
+            $(arg).addClass("filter");
+        }, 1000);
+
+    }
+
+    var timerId = setInterval(function () {
+        setTimeout(function () {
+            arrowsAnimation(firstArrow)
+        }, 1000);
+        setTimeout(function () {
+            arrowsAnimation(secondArrow)
+        }, 1500);
+        setTimeout(function () {
+            arrowsAnimation(thirdArrow)
+        }, 2000);
+
+    }, 2500);
+
+    // arrows animation--------------------------------------
+
+    // show consist------------------------------
+    $('.consist div li').on("click", function () {
         $('.consist div li').not(this).removeClass("active");
-        $(this).toggleClass( "active" );
+        $(this).toggleClass("active");
     });
+    // show consist------------------------------
 
-
-    $(".menu").on("click","a", function (event) {
+    // scroll----------------------------------
+    $(".menu").on("click", "a", function (event) {
         event.preventDefault();
-        var id  = $(this).attr('href'),
+        var id = $(this).attr('href'),
             top = $(id).offset().top;
         $('body,html').animate({scrollTop: top}, 1500);
     });
+    // scroll----------------------------------
 
-    var that = null;
-    $('.slide').click(function () {
-        that=this;
-    })
 
-    $('article').readmore({
-        maxHeight: 126,
-        moreLink: '<a href="#">+</a>',
-        lessLink: '<a href="#">-</a>',
-        afterToggle: function () {
-            $(that).find('.img').toggleClass('hide');
-        }
+    // readmore----------------------------------
+    $('.content').readmore({
+        maxHeight: 450,
+        moreLink: '<a class="toggle" href="#">+</a>',
+        lessLink: '<a class="toggle active" href="#">-</a>',
+
     });
 
-    $('.slider-videos').slick({
+    $('.comment-text').readmore({
+        maxHeight: 200,
+        moreLink: '<a class="toggle" href="#">+</a>',
+        lessLink: '<a class="toggle active" href="#">-</a>',
+
+    });
+    // readmore----------------------------------
+
+
+    // slick----------------------------------
+
+    $('.slider-photos').slick({
         dots: true,
         arrows: true,
         infinite: false,
         speed: 300,
-        slidesToShow: 3,
-        slidesToScroll: 3,
-        responsive: [
-            {
-                breakpoint: 1050,
-                settings: {
-                    infinite: true,
-                    slidesToShow: 2,
-                    slidesToScroll: 2,
-                }
-            },
-            {
-                breakpoint: 600,
-                settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 2
-                }
-            },
-            {
-                breakpoint: 480,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1
-                }
-            }
-            // You can unslick at a given breakpoint now by adding:
-            // settings: "unslick"
-            // instead of a settings object
-        ]
-    });
-
-    $('.slider-comments').slick({
-        dots: true,
-        arrows: true,
-        infinite: false,
-        speed: 300,
-        slidesToShow: 3,
-        slidesToScroll: 3,
+        slidesToShow: 2,
+        slidesToScroll: 2,
         responsive: [
             {
                 breakpoint: 1050,
@@ -82,33 +143,18 @@ $(document).ready(function() {
             {
                 breakpoint: 600,
                 settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 2
-                }
-            },
-            {
-                breakpoint: 480,
-                settings: {
                     slidesToShow: 1,
                     slidesToScroll: 1
                 }
             }
-            // You can unslick at a given breakpoint now by adding:
-            // settings: "unslick"
-            // instead of a settings object
         ]
     });
-    // <a href="#" class="readmore-js-toggle">Детальніше</a>
-    // $( ".readmore-js-toggle" ).click(function() {
-    //     $('.slide > .img').toggleClass('hide');
-    //
-    // });
+    // slick----------------------------------
 
     // year
     var today = new Date();
     var yr = today.getFullYear();
     $("#date").append(yr);
-
 
 
 });
